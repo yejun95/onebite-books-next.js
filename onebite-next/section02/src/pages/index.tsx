@@ -35,7 +35,10 @@ export const getStaticProps = async() => {
     props: {
       allBooks,
       recoBooks
-    }
+    },
+    // ISR 적용 -> 재검증하다.
+    // 3초 주기로 재검증
+    revalidate: 3,
   }
 };
 
