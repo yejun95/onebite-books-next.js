@@ -1,3 +1,5 @@
+import ClientComponent from "@/components/client-component";
+
 export default async function Page({
   params
 }:{
@@ -8,6 +10,9 @@ export default async function Page({
   return (
     <div>
       book/[id] page 입니다. : {id}
+      <ClientComponent>
+        <></>
+      </ClientComponent>
     </div>
   )
 }

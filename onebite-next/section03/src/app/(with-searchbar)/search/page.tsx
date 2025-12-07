@@ -1,3 +1,5 @@
+import ClientComponent from "@/components/client-component";
+
 export default async function Page({
   searchParams,
 }:{
@@ -8,6 +10,9 @@ export default async function Page({
   return (
     <div>
       search 페이지 {q}
+      <ClientComponent>
+        <></>
+      </ClientComponent>
     </div>
   )
 }
