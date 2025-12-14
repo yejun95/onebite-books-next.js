@@ -1,6 +1,14 @@
 import style from "./page.module.css";
+import {notFound} from "next/navigation";
 
+// generateStaticParams 변수 안에 없는 값이라면 404로 리턴시키는 함수 -> 1, 2, 3 id 이외에는 동적 페이지를 만들지 않음
+// export const dynamicParams = false;
 
+// Page Router에서 사용한 getStaticPath와 동일
+// 명시된 path 이외 요청이 들어오면 동적으로 페이지를 만든다.
+export function generateStaticParams (){
+  return [{id:"1"}, {id:"2"}, {id: "3"}]
+}
 
 export default async function Page({
   params,
@@ -11,7 +19,10 @@ export default async function Page({
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`);
   if (!response.ok) {
-    return <div>오류가 발생했습니다...</div>
+    if (response.status === 404) {
+      notFound();
+    }
+    return <div>오류가 발생했습니다...</div>;
   }
 
   const book = await response.json();
