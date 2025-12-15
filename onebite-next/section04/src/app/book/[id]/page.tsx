@@ -2,7 +2,7 @@ import style from "./page.module.css";
 import {notFound} from "next/navigation";
 
 // generateStaticParams 변수 안에 없는 값이라면 404로 리턴시키는 함수 -> 1, 2, 3 id 이외에는 동적 페이지를 만들지 않음
-// export const dynamicParams = false;
+// export const dynamicParams = false; - 라우트 세그먼트 옵션 중 하나
 
 // Page Router에서 사용한 getStaticPath와 동일
 // 명시된 path 이외 요청이 들어오면 동적으로 페이지를 만든다.
