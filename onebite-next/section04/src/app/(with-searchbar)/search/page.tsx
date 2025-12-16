@@ -1,5 +1,6 @@
 import BookItem from "@/components/book-item";
 import {BookData} from "@/types";
+import {delay} from "@/util/delay";
 
 export default async function Page({
   searchParams
@@ -7,6 +8,9 @@ export default async function Page({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q } = await searchParams;
+
+  // loading.tsx를 쓰기 위해 강제 지연
+  await delay(1500);
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${q}`, {cache: "force-cache"}) // 검색되는 데이터 마다 캐싱이 가능
   if (!response.ok) {
