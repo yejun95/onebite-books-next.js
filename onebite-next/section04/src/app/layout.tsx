@@ -3,22 +3,28 @@ import Link from "next/link";
 import style from "./layout.module.css";
 import {BookData} from "@/types";
 
-async function Footer () {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`, {cache: "force-cache"});
-  if (!response.ok) {
+async function Footer() {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+      { cache: "force-cache" }
+    );
+
+    if (!response.ok) {
+      return <footer>제작 @yejun</footer>;
+    }
+
+    const books: BookData[] = await response.json();
+    return (
+      <footer>
+        <div>제작 @yejun</div>
+        <div>{books.length}개의 도서가 등록되어 있습니다.</div>
+      </footer>
+    );
+  } catch (error) {
+    // 네트워크 에러 (ECONNREFUSED 등) 여기서 처리
     return <footer>제작 @yejun</footer>;
   }
-
-  const books: BookData[] = await response.json();
-  const bookCount = books.length;
-
-  return (
-    <footer>
-      <div>제작 @yejun</div>
-      <div>{bookCount}개의 도서가 등록되어 있습니다.</div>
-    </footer>
-  )
-
 }
 
 export default function RootLayout({
