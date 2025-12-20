@@ -1,5 +1,6 @@
 import style from "./page.module.css";
 import {notFound} from "next/navigation";
+import {createReviewAction} from "@/actions/create-review.action";
 
 // generateStaticParams 변수 안에 없는 값이라면 404로 리턴시키는 함수 -> 1, 2, 3 id 이외에는 동적 페이지를 만들지 않음
 // export const dynamicParams = false; - 라우트 세그먼트 옵션 중 하나
@@ -41,21 +42,14 @@ async function BookDetail({bookId}: { bookId: string}){
   );
 }
 
-function ReviewEditor() {
-
-  async function createReviewAction(formData: FormData) {
-    "use server"
-
-    const content = formData.get("content")?.toString();
-    const author = formData.get("author")?.toString();
-
-  }
+function ReviewEditor({ bookId }:{ bookId:string }) {
 
   return (
     <section>
       <form action={createReviewAction}>
-        <input name="content" placeholder="리뷰 내용"/>
-        <input name="author" placeholder="작성자"/>
+        <input name="bookId" value={bookId} hidden readOnly />
+        <input required name="content" placeholder="리뷰 내용" />
+        <input required name="author" placeholder="작성자" />
         <button type="submit">작성하기</button>
       </form>
     </section>
@@ -72,7 +66,7 @@ export default async function Page({
   return (
     <div className={style.container}>
       <BookDetail bookId={id} />
-      <ReviewEditor />
+      <ReviewEditor bookId={id}/>
     </div>
   );
 
