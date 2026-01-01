@@ -2,6 +2,7 @@ import "./globals.css";
 import Link from "next/link";
 import style from "./layout.module.css";
 import {BookData} from "@/types";
+import {ReactNode} from "react";
 
 async function Footer() {
   try {
@@ -29,8 +30,10 @@ async function Footer() {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode,
+  modal: ReactNode
 }>) {
   return (
     <html lang="en">
@@ -39,6 +42,7 @@ export default function RootLayout({
           <header>
             <Link href={"/"}>📚 ONEBITE BOOKS</Link>
           </header>
+          {modal}
           <main>{children}</main>
           <Footer />
         </div>
