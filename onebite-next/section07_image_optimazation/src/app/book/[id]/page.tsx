@@ -1,9 +1,10 @@
 import style from "./page.module.css";
 import {notFound} from "next/navigation";
-import {ReviewData} from "@/types";
+import {BookData, ReviewData} from "@/types";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
 import Image from "next/image";
+import {Metadata} from "next";
 
 // generateStaticParams 변수 안에 없는 값이라면 404로 리턴시키는 함수 -> 1, 2, 3 id 이외에는 동적 페이지를 만들지 않음
 // export const dynamicParams = false; - 라우트 세그먼트 옵션 중 하나
@@ -67,6 +68,28 @@ async function ReviewList({ bookId }: { bookId: string }) {
       ))}
     </section>
   );
+}
+
+export async function generateMetadata({params}: {params: Promise<{ id?: string }>}): Promise<Metadata> {
+  const { id } = await params;
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`);
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
+  const book: BookData = await response.json();
+
+  // 현재 페이지 메타 데이터를 동적으로 생성하는 역할
+  return {
+    title: `${book.title} - 한입북스`,
+    description: `${book.description}`,
+    openGraph: {
+      title: `${book.title} - 한입북스`,
+      description: `${book.description}`,
+      images: [book.coverImgUrl]
+    }
+  }
 }
 
 export default async function Page({
