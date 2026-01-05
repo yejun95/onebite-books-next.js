@@ -25,7 +25,7 @@ export async function deleteReviewAction(_: any, formData: FormData) {
     }
 
     // 삭제 후 페이지 리프레시
-    revalidateTag(`review-${bookId}`);
+    revalidateTag(`review-${bookId}`, "max");
 
     return {
       status: true,
