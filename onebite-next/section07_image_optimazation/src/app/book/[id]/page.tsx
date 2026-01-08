@@ -11,8 +11,18 @@ import {Metadata} from "next";
 
 // Page Router에서 사용한 getStaticPath와 동일
 // 명시된 path 이외 요청이 들어오면 동적으로 페이지를 만든다.
-export function generateStaticParams (){
-  return [{id:"1"}, {id:"2"}, {id: "3"}]
+export async function generateStaticParams (){
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`);
+
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
+  const books: BookData[] = await response.json();
+  return books.map((book) => ({
+    id: book.id.toString(),
+  }));
 }
 
 async function BookDetail({bookId}: { bookId: string}){
